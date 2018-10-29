@@ -26,7 +26,8 @@ We want to consider all possible positions of the needle between two boards.  On
 	\draw (-0.5,-\yscale) -- (-0.5,\yscale);
 	\draw (0.5,-\yscale) -- (0.5,\yscale);
 	\draw [dashed] (-\yscale,0) -- (\yscale,0) coordinate (OR);
-	\draw [color=red] ({0.5-\x-0.5*cos(\a)},{-0.5*sin(\a)}) -- (NC) --  ({0.5-\x+0.5*cos(\a)},{0.5*sin(\a)}) coordinate (NT) node [midway,above] {$\frac{1}{2}$};
+	\draw [color=red] ({0.5-\x-0.5*cos(\a)},{-0.5*sin(\a)}) -- (NC);
+	\draw [<->,color=red] (NC)  --  ({0.5-\x+0.5*cos(\a)},{0.5*sin(\a)}) coordinate (NT) node [midway,above] {$\frac{1}{2}$};
 	\draw pic[draw,"$\alpha$", angle radius=1cm] {angle=OR--NC--NT};
 	\draw [<->]  (NC) -- (0.5,0) node [midway,below] {$x$};
 	\draw [dashed,color=blue] (NT) -- ({0.5-\x+0.5*cos(\a)},0) ;
@@ -44,7 +45,8 @@ For some values of $x$ and $\alpha$ the needle will cross a crack and for some i
 	\draw (-0.5,-\yscale) -- (-0.5,\yscale);
 	\draw (0.5,-\yscale) -- (0.5,\yscale);
 	\draw [dashed] (-\yscale,0) -- (\yscale,0) coordinate (OR);
-	\draw [color=red] ({0.5-\x-0.5*cos(\a)},{-0.5*sin(\a)}) -- (NC) --  ({0.5-\x+0.5*cos(\a)},{0.5*sin(\a)}) coordinate (NT) node [midway,above] {$\frac{1}{2}$};
+	\draw [color=red] ({0.5-\x-0.5*cos(\a)},{-0.5*sin(\a)}) -- (NC);
+	\draw [<->, color=red] (NC) --  ({0.5-\x+0.5*cos(\a)},{0.5*sin(\a)}) coordinate (NT) node [midway,above] {$\frac{1}{2}$};
 	\draw pic[draw,"$\alpha$", angle radius=1cm] {angle=OR--NC--NT};
 	\draw [<->]  (NC) -- (0.5,0) node [midway,below] {$x$};
 	\draw [dashed,color=blue] (NT) -- ({0.5-\x+0.5*cos(\a)},0) ;
@@ -60,7 +62,7 @@ We assume all positions of the center of the needle and all angles are equally p
 \[
 \frac
 {\int_0^\frac{\pi}{2}\bigg[\int_0^\frac{1}{2}
-\Theta\big(\frac{1}{2}\cos\alpha - x\big) dx\bigg] d\alpha}
+\Theta\big(\frac{\cos\alpha}{2} - x\big) dx\bigg] d\alpha}
 {\int_0^\frac{\pi}{2}\big[\int_0^\frac{1}{2} dx\big] d\alpha}
 \]
 where $\Theta(y) = 1$ when $y>0$ and $0$ otherwise.
@@ -68,9 +70,9 @@ where $\Theta(y) = 1$ when $y>0$ and $0$ otherwise.
 The denominator, easily computed as $\frac{\pi}{4}$, is there to normalize the numerator so that the result is a probability.  The numerator is straightforward as well:
 \[
 \int_0^\frac{\pi}{2}\bigg[\int_0^\frac{1}{2}
-\Theta\big(\frac{1}{2}\cos\alpha - x\big) dx\bigg] d\alpha
+\Theta\big(\frac{\cos\alpha}{2} - x\big) dx\bigg] d\alpha
 =
-\int_0^\frac{\pi}{2}\bigg[\int_0^{\frac{1}{2}\cos\alpha}d\alpha\bigg]
+\int_0^\frac{\pi}{2}\bigg[\int_0^{\frac{\cos\alpha}{2}}d\alpha\bigg]
 =
 \frac{1}{2}\int_0^\frac{\pi}{2}\cos\alpha \enspace d\alpha
 =\frac{1}{2}
