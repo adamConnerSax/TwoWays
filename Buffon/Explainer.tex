@@ -1,0 +1,96 @@
+\documentclass[11pt]{tufte-handout}
+\usepackage{tikz}
+\usetikzlibrary{calc, quotes,angles}
+\begin{document}
+
+\title{Buffon's Needle, Two Ways}
+\author{Adam Conner-Sax}
+\date{10-26-2018}
+\maketitle
+
+\section{The Problem}
+This problem has a storied history, which I'll skip here.  And there are presumably many ways to solve it.  I'm going to explain two because they are quite different, both simple enough to explain in a couple of paragraphs, and taken together, challenge me to think harder about how each reveals its answer.
+
+Consider a floor made of parallel strips of wood which are very long and 1 unit of length (a foot, say) wide.  Now throw a 1 unit long needle onto the floor.  What is the probability that the needle contacts one of the cracks between floorboards?
+
+If you are like me, you plow more or less straight ahead and argue thusly:
+\section{Solution I}
+We want to consider all possible positions of the needle between two boards.  One way of describing that is to consider the distance, $x$ of the center of the needle from one crack and the angle, $\alpha$, between the needle and a line, $L$, orthogonal to the cracks and passing through the center of the needle (see sidebar).  
+\begin{marginfigure}
+\begin{tikzpicture}
+	[scale = 4]
+	\def\a{pi/4 r}
+        \def\x{0.4}
+        \def\yscale{0.7}
+        \coordinate (NC) at ({0.5-\x},0);
+	\draw (-0.5,-\yscale) -- (-0.5,\yscale);
+	\draw (0.5,-\yscale) -- (0.5,\yscale);
+	\draw [dashed] (-\yscale,0) -- (\yscale,0) coordinate (OR);
+	\draw [color=red] ({0.5-\x-0.5*cos(\a)},{-0.5*sin(\a)}) -- (NC) --  ({0.5-\x+0.5*cos(\a)},{0.5*sin(\a)}) coordinate (NT) node [midway,above] {$\frac{1}{2}$};
+	\draw pic[draw,"$\alpha$", angle radius=1cm] {angle=OR--NC--NT};
+	\draw [<->]  (NC) -- (0.5,0) node [midway,below] {$x$};
+	\draw [dashed,color=blue] (NT) -- ({0.5-\x+0.5*cos(\a)},0) ;
+\end{tikzpicture}
+\end{marginfigure}
+
+For some values of $x$ and $\alpha$ the needle will cross a crack and for some it won't.  Draw a perpendicular from the end of the needle to $L$, as illustrated at the right, and consider the right triangle formed by the (red) needle, the dashed center line and the dashed blue perpendicular dropped from the end of the needle to the center line, $L$.
+\begin{marginfigure}
+\begin{tikzpicture}
+	[scale = 4]
+	\def\a{pi/4 r}
+        \def\x{0.3}
+        \def\yscale{0.7}
+        \coordinate (NC) at ({0.5-\x},0);
+	\draw (-0.5,-\yscale) -- (-0.5,\yscale);
+	\draw (0.5,-\yscale) -- (0.5,\yscale);
+	\draw [dashed] (-\yscale,0) -- (\yscale,0) coordinate (OR);
+	\draw [color=red] ({0.5-\x-0.5*cos(\a)},{-0.5*sin(\a)}) -- (NC) --  ({0.5-\x+0.5*cos(\a)},{0.5*sin(\a)}) coordinate (NT) node [midway,above] {$\frac{1}{2}$};
+	\draw pic[draw,"$\alpha$", angle radius=1cm] {angle=OR--NC--NT};
+	\draw [<->]  (NC) -- (0.5,0) node [midway,below] {$x$};
+	\draw [dashed,color=blue] (NT) -- ({0.5-\x+0.5*cos(\a)},0) ;
+\end{tikzpicture}
+\end{marginfigure}
+
+
+Recall that the cosine of an angle is {\it defined}  as the ratio of the length of the adjacent side of a right triangle, here $x$, to the length of the hypotenuse, here $\frac{1}{2}$. So the distance between the center of the needle and the spot where the blue dashed line touches the center line is $\frac{\cos \alpha}{2}$. So, for a given $\alpha$ The needle will touch or cross the crack when $x \leq \frac{\cos\alpha}{2}$. 
+
+And we note that it suffices to look only at $0 \leq x \leq \frac{1}{2}$ and $0 \leq \alpha \leq \frac{\pi}{2}$ because the situation is symmetric as $x$ passes $\frac{1}{2}$ and $\alpha$ passes $\frac{\pi}{2}$. 
+
+We assume all positions of the center of the needle and all angles are equally probable and so the probability of touching/crossing is given by:
+\[
+\frac
+{\int_0^\frac{\pi}{2}\bigg[\int_0^\frac{1}{2}
+\Theta\big(\frac{1}{2}\cos\alpha - x\big) dx\bigg] d\alpha}
+{\int_0^\frac{\pi}{2}\big[\int_0^\frac{1}{2} dx\big] d\alpha}
+\]
+where $\Theta(y) = 1$ when $y>0$ and $0$ otherwise.
+
+The denominator, easily computed as $\frac{\pi}{4}$, is there to normalize the numerator so that the result is a probability.  The numerator is straightforward as well:
+\[
+\int_0^\frac{\pi}{2}\bigg[\int_0^\frac{1}{2}
+\Theta\big(\frac{1}{2}\cos\alpha - x\big) dx\bigg] d\alpha
+=
+\int_0^\frac{\pi}{2}\bigg[\int_0^{\frac{1}{2}\cos\alpha}d\alpha\bigg]
+=
+\frac{1}{2}\int_0^\frac{\pi}{2}\cos\alpha \enspace d\alpha
+=\frac{1}{2}
+\]
+
+And so we have our answer, the pleasingly simple $\frac{2}{\pi}$.
+
+\section{Solution II}
+If, on the other hand, you like to think about probability more than trigonometry and calculus, you might happen upon a completely different solution, one I find beautiful, especially when considered along with the one above.
+
+Instead of the probability of one crossing, let's consider instead the expected number of times a needle will cross a crack. And let's consider needles of any length. For our original needle, that expected value is the same as the probability since it can cross at most once.  But what happens if we weld two needles together at their ends?  If the event of needle $n$ crossing is $N_n$ and has $E(N_n)$ expected crossings then the expected number of crossings for our new welded needle is $E(N_1 + N_2) = E(N_1) + E(N_2)$.  This might seem odd, that the expectation is independent of how we attached the needles, but that is a property of all probabilistic expectations, even for events which are not independent. 
+
+This bit confused me at first.  But then I imagined two ways of combining two needles.  We can weld them into one longer needle.  Then we've increased the chance that we cross someplace and added some chance that we cross twice.  Instead, imagine that we weld them at a very sharp angle.  Now the chance that we cross at all is not much changed, but anytime we cross, we almost certainly cross with both needles, that is, twice.  Those two ways of increasing our expected number of crossings must be the same.
+
+But that has a very strong implication, which is that the expected number of crossings can depend only on the length, $l$, of the needle, since for identical needles, each needle's expectation is the same.  That is, any needle can be made from very small needles of the same length which are welded together.  And each of those has the same expected number of crossings.  So the expected number of crossings of the the original needle is just the sum of those identical smaller expectations.  And this doesn't depend on the shape of the needle!
+
+So, for any needle, $E \propto l$. All that remains is to compute the constant of proportionality.  For that we choose a circular needle with diameter 1 (and thus a length of $\pi$) which will always cross exactly twice. So $E = \frac{2}{\pi}l$.  We've thus solved a much harder problem, the expected number of crossings for any shaped needle of any length, and also gotten our answer for the original problem.  Since our original needle has length 1 and can cross at most once, the probability of crossing and the expected number of crossings are the same, namely $\frac{2}{\pi}$  
+
+\section{Discussion}
+What amazes me about all this is how little these solutions have to do with each other. The first uses basic trigonometry and calculus. The second uses a simple fact about sums of expectations to beautiful effect. Each is straightforward in its way.  I confess that the first is much clearer to me; exactly what I would do if confronted with this problem.  
+
+But the second is more engaging. It requires generalizing, from probability to expectation and from straight needles to needles of any shape.  Neither of these is obvious, at least to me.  I might have considered generalizing the needle's length but it's shape? And I would have kept thinking about the probability of a single crossing rather than making the lovely jump to the expected number of crossings.  And once these generalizations are made, the beautiful appearance of a circle to do the actual computation seems almost ridiculously fortuitous and yet somehow inevitable.  If the first solution is spare and direct prose, the second approaches poetry.
+\end{document}
