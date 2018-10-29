@@ -54,38 +54,28 @@ For some values of $x$ and $\alpha$ the needle will cross a crack and for some i
 \end{marginfigure}
 
 
-Recall that the cosine of an angle is {\it defined}  as the ratio of the length of the adjacent side of a right triangle, here $x$, to the length of the hypotenuse, here $\frac{1}{2}$. So the distance between the center of the needle and the spot where the blue dashed line touches the center line is $\frac{\cos \alpha}{2}$. So, for a given $\alpha$ The needle will touch or cross the crack when $x \leq \frac{\cos\alpha}{2}$. 
+Recall that the cosine of an angle is {\it defined}  as the ratio of the length of the adjacent side of a right triangle, here $x$, to the length of the hypotenuse, here $\frac{1}{2}$. So the distance between the center of the needle and the spot where the blue dashed line touches the center line is $\frac{\cos \alpha}{2}$. For a given $\alpha$ The needle will touch or cross the crack when $x \leq \frac{\cos\alpha}{2}$. 
 
-And we note that it suffices to look only at $0 \leq x \leq \frac{1}{2}$ and $0 \leq \alpha \leq \frac{\pi}{2}$ because the situation is symmetric as $x$ passes $\frac{1}{2}$ and $\alpha$ passes $\frac{\pi}{2}$. 
+There is symmetry here so it suffices to look only at $0 \leq x \leq \frac{1}{2}$ and $0 \leq \alpha \leq \frac{\pi}{2}$ because the situation is symmetric as $x$ passes $\frac{1}{2}$ and $\alpha$ passes $\frac{\pi}{2}$. 
 
-We assume all positions of the center of the needle and all angles are equally probable and so the probability of touching/crossing is given by:
+We assume all positions of the center of the needle and all angles are equally probable and so the probability of touching/crossing is given by considering all these positions and angles and "adding-up" (via integration) all the values where the needle crosses the line.  Recall that $\Theta(y) = 1$ when $y>0$ and $0$ otherwise. We first fix an $\alpha$ and integrate over all (equally-)possible $x$ values: 
 \[
-\frac
-{\int_0^\frac{\pi}{2}\bigg[\int_0^\frac{1}{2}
-\Theta\big(\frac{\cos\alpha}{2} - x\big) dx\bigg] d\alpha}
-{\int_0^\frac{\pi}{2}\big[\int_0^\frac{1}{2} dx\big] d\alpha}
+P(\alpha) = 2\int_0^{\frac{1}{2}}\Theta\bigg(\frac{\cos\alpha}{2} - x\bigg)dx = 2\int_0^\frac{\cos\alpha}{2} dx =  \cos \alpha
 \]
-where $\Theta(y) = 1$ when $y>0$ and $0$ otherwise.
-
-The denominator, easily computed as $\frac{\pi}{4}$, is there to normalize the numerator so that the result is a probability.  The numerator is straightforward as well:
+Because we are integrating only from $0$ to $\frac{1}{2}$, we need the $2$ in front of the integral so that our result is a probability. We pause to note that this answer makes sense.  A horizontal needle has $\alpha=0$ and must touch the crack for any $x$ and, indeed, $P(0)=\cos 0 = 1$, while a vertical needle, with $\alpha=\pi/2$, can't touch the crack for any x and $P(\pi/2) = \cos (\pi/2) = 0$. 
+Now we integrate over all possible angles, again normalizing the integral, this time with a $\frac{2}{\pi}$:
 \[
-\int_0^\frac{\pi}{2}\bigg[\int_0^\frac{1}{2}
-\Theta\big(\frac{\cos\alpha}{2} - x\big) dx\bigg] d\alpha
-=
-\int_0^\frac{\pi}{2}\bigg[\int_0^{\frac{\cos\alpha}{2}}d\alpha\bigg]
-=
-\frac{1}{2}\int_0^\frac{\pi}{2}\cos\alpha \enspace d\alpha
-=\frac{1}{2}
+P = 
+\frac{2}{\pi}\int_0^\frac{\pi}{2} P(\alpha) d\alpha = \frac{2}{\pi}\int_0^\frac{\pi}{2} (\cos\alpha) d\alpha = \frac{2}{\pi}
 \]
-
-And so we have our answer, the pleasingly simple $\frac{2}{\pi}$.
+And so we have our answer, the pleasingly simple $P=\frac{2}{\pi}$.
 
 \section{Solution II}
 If, on the other hand, you like to think about probability more than trigonometry and calculus, you might happen upon a completely different solution, one I find beautiful, especially when considered along with the one above.
 
 Instead of the probability of one crossing, let's consider instead the expected number of times a needle will cross a crack. And let's consider needles of any length. For our original needle, that expected value is the same as the probability since it can cross at most once.  But what happens if we weld two needles together at their ends?  If the event of needle $n$ crossing is $N_n$ and has $E(N_n)$ expected crossings then the expected number of crossings for our new welded needle is $E(N_1 + N_2) = E(N_1) + E(N_2)$.  This might seem odd, that the expectation is independent of how we attached the needles, but that is a property of all probabilistic expectations, even for events which are not independent. 
 
-This bit confused me at first.  But then I imagined two ways of combining two needles.  We can weld them into one longer needle.  Then we've increased the chance that we cross someplace and added some chance that we cross twice.  Instead, imagine that we weld them at a very sharp angle.  Now the chance that we cross at all is not much changed, but anytime we cross, we almost certainly cross with both needles, that is, twice.  Those two ways of increasing our expected number of crossings must be the same.
+This bit confused me at first.  Imagine two ways of combining two needles.  We can weld them into one longer needle.  Then we've increased the chance that we cross someplace and added some chance that we cross twice.  Or imagine that we weld them at a very sharp angle.  Now the chance that we cross at all is not much changed, but now we often cross with both needles, that is, twice.  Those two ways of increasing of increasing the expected number of crossings turn out to be numerically identical.
 
 But that has a very strong implication, which is that the expected number of crossings can depend only on the length, $l$, of the needle, since for identical needles, each needle's expectation is the same.  That is, any needle can be made from very small needles of the same length which are welded together.  And each of those has the same expected number of crossings.  So the expected number of crossings of the the original needle is just the sum of those identical smaller expectations.  And this doesn't depend on the shape of the needle!
 
